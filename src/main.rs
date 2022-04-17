@@ -1,23 +1,22 @@
 use std::env;
-use std::fs;
+use std::process;
 
+use ripgrep::Config;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     println!("{:?}", args);
-    // let query = &args[1];
-    // let file_name = &args[2];
-    let (query, file_name) = parse_config(&args);
-    println!("Searching for {}", query);
-    println!("In file {}", file_name);
 
-    let contents = fs::read_to_string(file_name)
-        .expect("Something went wrong reading the file");
-    println!("With text:\n{}", contents);
-}
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments:{}", err);
+        process::exit(1);
+    });
 
-fn parse_config(args: &[String]) -> (&str, &str) {
-    let query = &args[1];
-    let file_name = &args[2];
-    (query, file_name)
+    // let contents = fs::read_to_string(config.filename)
+    //     .expect("Something went wrong reading the file");
+    // println!("With text:\n{}", contents);
+    if let Err(e) = ripgrep::run(config) {
+        println!("Application error: {}", e);
+        process::exit(1);
+    };
 }
