@@ -1,0 +1,2 @@
+$Env:CASE_INSENSITIVE=1; cargo run body D:\\data\\slliu\\ripgrep\\test.txt
+ Remove-Item Env:CASE_INSENSITIVE

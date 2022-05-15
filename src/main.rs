@@ -5,7 +5,7 @@ use ripgrep::Config;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    println!("{:?}", args);
+    // println!("{:?}", args);
 
     let config = Config::new(&args).unwrap_or_else(|err| {
         println!("Problem parsing arguments:{}", err);
